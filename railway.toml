@@ -1,0 +1,8 @@
+[buildpacks]
+providers = ["nixpacks", "dockerfile"]
+
+[build.variables]
+NPM_FLAGS="--legacy-peer-deps"
+
+[build]
+cmd = "composer install --no-dev && npm install && npm run build"
