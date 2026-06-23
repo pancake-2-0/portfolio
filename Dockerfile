@@ -28,7 +28,9 @@ RUN mkdir -p bootstrap/cache storage/framework/sessions storage/framework/views 
 RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --optimize-autoloader --no-interaction
 
 # Configura Apache
+RUN a2dismod mpm_event mpm_worker || true
 RUN a2enmod rewrite
+RUN echo 'ServerName localhost' >> /etc/apache2/apache2.conf
 ENV APACHE_DOCUMENT_ROOT=/app/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 
