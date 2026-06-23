@@ -33,7 +33,7 @@ RUN a2dismod mpm_event mpm_worker || true \
 RUN a2enmod mpm_prefork rewrite
 RUN echo 'ServerName localhost' >> /etc/apache2/apache2.conf
 ENV APACHE_DOCUMENT_ROOT=/app/public
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+RUN sed -ri -e "s!/var/www/html!${APACHE_DOCUMENT_ROOT}!g" /etc/apache2/sites-available/*.conf
 RUN printf '<Directory "%s">\n    Options Indexes FollowSymLinks\n    AllowOverride All\n    Require all granted\n</Directory>\n' "$APACHE_DOCUMENT_ROOT" >> /etc/apache2/sites-available/000-default.conf
 RUN apachectl -t
 
@@ -46,3 +46,4 @@ RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 EXPOSE 80
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=80
