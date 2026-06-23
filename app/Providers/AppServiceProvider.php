@@ -33,8 +33,12 @@ class AppServiceProvider extends ServiceProvider
 
         Paginator::useBootstrap();
 
-        if (Schema::hasTable('categories')) {
-            View::share('categories', Category::orderBy('name')->get());
-        }
+        View::composer('components.navbar', function ($view): void {
+            $categories = Schema::hasTable('categories')
+                ? Category::orderBy('name')->get()
+                : collect();
+
+            $view->with('categories', $categories);
+        });
     }
 }
