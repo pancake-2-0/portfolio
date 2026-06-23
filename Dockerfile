@@ -10,7 +10,7 @@ FROM php:8.3-apache
 WORKDIR /app
 
 # Installa estensioni PHP necessarie
-RUN docker-php-ext-install pdo pdo_mysql
+RUN docker-php-ext-install pdo pdo_mysql exif
 
 # Installa Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -22,7 +22,7 @@ COPY . .
 COPY --from=node_builder /build/public/build ./public/build
 
 # Installa dipendenze PHP
-RUN composer install --no-dev --optimize-autoloader --no-interaction
+RUN composer install --no-dev --optimize-autoloader --no-interaction --ignore-platform-req=php --ignore-platform-req=ext-exif
 
 # Configura Apache
 RUN a2enmod rewrite
