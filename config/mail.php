@@ -51,7 +51,7 @@ return [
         ],
         'mailtrap_http' => [
             'transport' => 'mailgun',
-            'domain' => 'sandbox.api.mailtrap.io',
+            'domain' => 'sandbox.api.mailtrap.io/api/send/4431921',
             'secret' => env('MAILTRAP_API_TOKEN'),
         ],
 
